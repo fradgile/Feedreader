@@ -52,12 +52,12 @@ $(function() {
 
     describe('The menu', function() {
 
-      /* Test that the menu element is hidden by default. */
+       /* Test that the menu element is hidden by default. */
        it('is hidden by default', function() {
          expect($('body').hasClass('menu-hidden')).toBe(true);
        });
 
-       /* Test that the menu changes visibility when the menu icon is clicked.*/
+        /* Test that the menu changes visibility when the menu icon is clicked.*/
         it('changes visibility when icon clicked', function() {
           var hasMenuHiddenClass = hasMenuHiddenClass = $('body').hasClass('menu-hidden');
 
@@ -68,7 +68,7 @@ $(function() {
           expect($('body').hasClass('menu-hidden')).toBe(hasMenuHiddenClass);
         });
 
-      });
+    });
 
     describe('Initial Entries', function() {
       /*  Test that when the loadFeed
@@ -83,7 +83,7 @@ $(function() {
 
        it('have at least one entry', function(done) {
          var feedEntrySize = $('.feed .entry').size()
-         console.log('feedEntrySize = ' + feedEntrySize);
+         //console.log('feedEntrySize = ' + feedEntrySize);
          expect(feedEntrySize).toBeGreaterThan(0);
          done();
        });
@@ -94,25 +94,25 @@ $(function() {
     /* Test that when a new feed is loaded
      * by the loadFeed function that the content actually changes.
      */
-      var initialHTML, newHTML;
+       var initialHTML, newHTML;
 
-      beforeEach(function(done) {
-        loadFeed(0, function() {
-          // Load the first Feed and get the original/initial HTML
-          initialHTML = $('.feed').html();
-          //console.log('initialHTML = ' + initialHTML);
-          done();
-        });
+       beforeEach(function(done) {
+         loadFeed(0, function() {
+         // Load the first Feed and get the original/initial HTML
+           initialHTML = $('.feed').html();
+           //console.log('initialHTML = ' + initialHTML);
+           done();
+         });
       });
 
       it('content actually changes', function(done) {
-        loadFeed(1, function () {
-          // Load the second Feed and get the HTML. Compare initial and new HTML
-          newHTML = $('.feed').html();
-          //console.log('newHTML = ' + newHTML);
-          expect(initialHTML).not.toBe(newHTML);
-          done();
-        });
+         loadFeed(1, function () {
+           // Load the second Feed and get the HTML. Compare initial and new HTML
+           newHTML = $('.feed').html();
+           //console.log('newHTML = ' + newHTML);
+           expect(initialHTML).not.toBe(newHTML);
+           done();
+         });
       });
 
     });
