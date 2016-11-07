@@ -27,46 +27,94 @@ $(function() {
         });
 
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
+        /* Loops through each feed
+         * in the allFeeds object and ensure it has a URL defined
          * and that the URL is not empty.
          */
+         it('URLs are defined', function() {
+           allFeeds.forEach(function(feed) {
+             expect(feed.url).toBeDefined();
+             expect(feed.url).not.toBe('');
+           });
+         });
 
-
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
+         /* Loop through each feed
+          * in the allFeeds object and ensure it has a name defined
+          * and that the name is not empty.
+          */
+         it('names are defined', function() {
+           allFeeds.forEach(function(feed) {
+             expect(feed.name).toBeDefined();
+             expect(feed.name).not.toBe('');
+           });
+         });
     });
 
+    describe('The menu', function() {
 
-    /* TODO: Write a new test suite named "The menu" */
+      /* Test that the menu element is hidden by default. */
+       it('is hidden by default', function() {
+         expect($('body').hasClass('menu-hidden')).toBe(true);
+       });
 
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         */
+       /* Test that the menu changes visibility when the menu icon is clicked.*/
+        it('changes visibility when icon clicked', function() {
+          var hasMenuHiddenClass = hasMenuHiddenClass = $('body').hasClass('menu-hidden');
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
+          $('.menu-icon-link').click();
+          expect($('body').hasClass('menu-hidden')).not.toBe(hasMenuHiddenClass);
 
-    /* TODO: Write a new test suite named "Initial Entries" */
+          $('.menu-icon-link').click();
+          expect($('body').hasClass('menu-hidden')).toBe(hasMenuHiddenClass);
+        });
 
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
+      });
 
-    /* TODO: Write a new test suite named "New Feed Selection"
+    describe('Initial Entries', function() {
+      /*  Test that when the loadFeed
+       * function is called and completes its work, there is at least
+       * a single .entry element within the .feed container.
+       */
+       beforeEach(function(done) {
+         loadFeed(0, function() {
+           done();
+         });
+       });
 
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+       it('have at least one entry', function(done) {
+         var feedEntrySize = $('.feed .entry').size()
+         console.log('feedEntrySize = ' + feedEntrySize);
+         expect(feedEntrySize).toBeGreaterThan(0);
+         done();
+       });
+
+    });
+
+    describe('New Feed Selection', function() {
+    /* Test that when a new feed is loaded
+     * by the loadFeed function that the content actually changes.
+     */
+      var initialHTML, newHTML;
+
+      beforeEach(function(done) {
+        loadFeed(0, function() {
+          // Load the first Feed and get the original/initial HTML
+          initialHTML = $('.feed').html();
+          //console.log('initialHTML = ' + initialHTML);
+          done();
+        });
+      });
+
+      it('content actually changes', function(done) {
+        loadFeed(1, function () {
+          // Load the second Feed and get the HTML. Compare initial and new HTML
+          newHTML = $('.feed').html();
+          //console.log('newHTML = ' + newHTML);
+          expect(initialHTML).not.toBe(newHTML);
+          done();
+        });
+      });
+
+    });
+
 }());
